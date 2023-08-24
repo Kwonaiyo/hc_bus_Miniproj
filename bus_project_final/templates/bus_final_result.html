@@ -1,0 +1,135 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>버스 도착 시간 안내</title>
+
+        <style>
+            body{
+                background-color: rgb(173, 236, 236);
+            }
+            #bus_station{
+                font-weight: bold;
+                font-size: 40px;
+            }
+            #list{
+                width: 1200px;
+                height: 800px;
+                font-size: 20px;
+                list-style: none;
+            }
+            .BusNo{
+                font-size: 30px;
+                font-weight: bold;
+            }
+            .BusType{
+                font-size: 15px;
+                margin: 5px 0px 5px 0px;
+                
+            }
+            .BusTime{
+                display: inline;
+                font-size: 13px;
+                margin-right:10px;
+                margin-top: 10px;
+                color: rgb(222, 81, 81);
+            }
+            .BusNext{
+                display: inline;
+                font-size: 13px;
+                margin-right:10px;
+                margin-top: 10px;
+            }
+
+            
+        </style>
+    </head>
+    <body>
+        <div id="bus_station">{{name_a}}</div>
+        <div class="data_c">
+            <ul id='list'>
+
+            </ul>
+        </div>
+
+        <script>
+            let test_list = []
+            test_list = {{raw_list | safe}};
+            let arsno_i_data_j_arsno = ""
+            let arsno_i_data_j_nodenm = ""
+            let arsno_i_data_j_lineno = ""
+            let arsno_i_data_j_bustype = ""
+            let arsno_i_data_j_min1 = ""
+            let arsno_i_data_j_station1 = ""
+            let arsno_i_data_j_min2 = ""
+            let arsno_i_data_j_station2 =""
+            
+            // let header_node = document.createElement('h1')
+            // let h_text = text_list[0]['nodenm']
+            // let header_text_node = document.createTextNode(h_text)
+            // header_node.appendChild(header_text_node)
+            // document.getElementById('head_node').appendChild(header_node)
+            
+            for (let i = 0; i < test_list.length; i++){
+                let t = []
+
+                // t.push("정류장번호 : " + {{value}})
+                //arsno_i_data_j_nodenm = JSON.stringify(test_list[i]['nodenm']).replaceAll('"', '')
+                //t.push("정류장명 : " + arsno_i_data_j_nodenm)
+                arsno_i_data_j_lineno = JSON.stringify(test_list[i]['lineno']).replaceAll('"', '')
+                t.push(arsno_i_data_j_lineno)
+                arsno_i_data_j_bustype = JSON.stringify(test_list[i]['bustype']).replaceAll('"', '')
+                t.push(arsno_i_data_j_bustype)
+                if (JSON.stringify(test_list[i]['min1']) != null){
+                    arsno_i_data_j_min1 = JSON.stringify(test_list[i]['min1']).replaceAll('"', '')
+                    t.push(arsno_i_data_j_min1+"분 전")
+                    arsno_i_data_j_station1 = JSON.stringify(test_list[i]['station1']).replaceAll('"', '')
+                    t.push(arsno_i_data_j_station1+" 정류장 전")
+                }
+                else{
+                    t.push("도착 예정 정보 없음")
+                }
+                if (JSON.stringify(test_list[i]['min2']) != null){
+                    arsno_i_data_j_min2 = JSON.stringify(test_list[i]['min2']).replaceAll('"', '')
+                    t.push(arsno_i_data_j_min2+" 분 전")
+                    arsno_i_data_j_station2 = JSON.stringify(test_list[i]['station2']).replaceAll('"', '')
+                    t.push(arsno_i_data_j_station2+" 정류장 전")
+                }
+                
+                let count = 0
+                for(let i = 0; i < t.length; i++){
+                    count += 1
+                    let li_node = document.createElement('li')
+                    let t_texta = document.createTextNode(t[i])
+                    if (i==0){
+                        li_node.className = "BusNo"
+                    }
+                    else if(i==1){
+                        li_node.className = "BusType"
+                    }
+                    else if (i >= 2){
+                        if (count %2 == 1){
+                            li_node.className = "BusTime"
+                        }
+                        else {
+                            li_node.className = "BusNext"
+                        }
+                    }
+                    li_node.appendChild(t_texta);
+                    document.getElementById('list').appendChild(li_node)
+                }
+                let newBr = document.createElement('br');
+
+                let div_node = document.createElement('div')
+                temp_str = "----------------------------------"
+                let d_texta = document.createTextNode(temp_str)
+                div_node.className = "block"
+                div_node.appendChild(d_texta)
+                document.getElementById('list').appendChild(div_node)
+                // t_text = document.createTextNode(temp_str)
+                // document.getElementById('list').appendChild(newBr)
+                // document.getElementById('list').appendChild(t_text)
+            }
+        </script>
+    </body>
+</html>

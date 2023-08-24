@@ -1,0 +1,22 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="a">
+
+        </div>
+
+
+        <script>
+            let apples = [1, 2, 3, 4, 5]
+            let plusUl = document.createElement('ul');
+            for(let i = 0; i < apples.length; i++){
+                plusLi = document.createElement('li');
+                plusLi.innerHTML = apples[i];
+                plusUl.appendChild(plusLi)
+            }
+            document.getElementById('a').appendChild(plusUl)
+        </script>
+    </body>
+</html>

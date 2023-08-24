@@ -1,0 +1,96 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <p>{{info_list}}</p>
+        <div class="data_c">
+            <h1> TEST ul, li</h1>
+            <ul id='list'>
+                <li>T_a</li>
+                <li>T_b</li>
+                <li>T_c</li>
+            </ul>
+        </div>
+        <!-- <div id="test">testing::: {{info_list}}</div> -->
+        <button onclick="">테스트중</button>
+
+        <script>
+            window.alert('안녕하세요?');
+            let test_list = []
+            test_list = {{info_list | safe}};
+            let arsno_i_data_j_arsno = ""
+            let arsno_i_data_j_nodenm = ""
+            let arsno_i_data_j_lineno = ""
+            let arsno_i_data_j_bustype = ""
+            let arsno_i_data_j_min1 = ""
+            let arsno_i_data_j_station1 = ""
+            let arsno_i_data_j_min2 = ""
+            let arsno_i_data_j_station2 =""
+            
+            
+            for (let i = 0; i < test_list.length; i++){
+                let arsno = JSON.stringify(test_list[i]['arsno']).replaceAll('"', '')
+                for (let j = 0; j < test_list[i]['data'].length; j++){
+                    let t = []
+                    t.push("정류장번호 : " + arsno)
+                    arsno_i_data_j_nodenm = JSON.stringify(test_list[i]['data'][j]['nodenm']).replaceAll('"', '')
+                    t.push("정류장명 : " + arsno_i_data_j_nodenm)
+                    arsno_i_data_j_lineno = JSON.stringify(test_list[i]['data'][j]['lineno']).replaceAll('"', '')
+                    t.push("버스번호 : " + arsno_i_data_j_lineno)
+                    arsno_i_data_j_bustype = JSON.stringify(test_list[i]['data'][j]['bustype']).replaceAll('"', '')
+                    t.push("버스유형 : " + arsno_i_data_j_bustype)
+                    if (JSON.stringify(test_list[i]['data'][j]['min1']) != null){
+                       arsno_i_data_j_min1 = JSON.stringify(test_list[i]['data'][j]['min1']).replaceAll('"', '')
+                       t.push("도착 "+arsno_i_data_j_min1+"분 전")
+                       arsno_i_data_j_station1 = JSON.stringify(test_list[i]['data'][j]['station1']).replaceAll('"', '')
+                       t.push(arsno_i_data_j_station1+" 정류장 전")
+                    }
+                    if (JSON.stringify(test_list[i]['data'][j]['min2']) != null){
+                        arsno_i_data_j_min2 = JSON.stringify(test_list[i]['data'][j]['min2']).replaceAll('"', '')
+                        t.push("도착" + arsno_i_data_j_min2+" 분 전")
+                        arsno_i_data_j_station2 = JSON.stringify(test_list[i]['data'][j]['station2']).replaceAll('"', '')
+                        t.push(arsno_i_data_j_station2+" 정류장 전")
+                    }
+
+                    for(let i = 0; i < t.length; i++){
+                        let li_node = document.createElement('li')
+                        let t_texta = document.createTextNode(t[i])
+                        li_node.appendChild(t_texta);
+                        document.getElementById('list').appendChild(li_node)
+                    }
+
+                    // temp_li.textContent = arsno_i_data_j_lineno;
+                    // document.getElementById('list').appendChild(temp_li)
+
+                    temp_str = "좀 들어가봐 이자식아111"
+                    t_text = document.createTextNode(temp_str)
+                    document.getElementById('list').appendChild(t_text)
+
+                    // temp_li.textContent = "좀 들어가봐 이자식아";
+                    // document.getElementById('list').appendChild(temp_li)
+
+                    // temp_li.textContent = "들어갔냐?";
+                    // document.getElementById('list').appendChild(temp_li)
+                }
+            }
+        </script>
+    </body>
+</html>
+<!--
+    let test_list = new Array();
+    test_list = {{info_list}};
+    <script>
+            let rec = {{ result_list | safe }};
+            for (var i in rec){
+                console.log(rec[i]);
+                const newBtn = document.createElement('button');
+                // 2. <div>에 들어갈 text node 만들기
+                const newText = document.createTextNode(rec[i]['bstopnm']);
+                // 3. <div>에 text node 붙이기
+                newBtn.appendChild(newText);
+                // 4. <body>에 1에서 만든 <div> element 붙이기
+                document.body.appendChild(newBtn);
+            }
+    </script>
+-->

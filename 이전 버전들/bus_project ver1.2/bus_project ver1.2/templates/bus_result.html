@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>버스 진행 방향 선택</title>
+        <style>
+            body{
+                text-align: center;
+            }
+            button{
+                width: 250px;
+                height: 120px;
+                text-align: center;
+                margin: 15px 30px 15px 0px;
+                font-size: 20px;
+            }
+            .horizon{
+                width: 700px;
+                height: 2px;
+                background-color: black;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <p><a href="http://localhost:5000/">초기 화면으로 돌아가기</a></p>
+        <h1 id="bus_name">{{bus_station_name}}</h1>
+        <h3>원하는 방면을 선택해주세요</h3>
+        
+
+        <script>
+            let form = document.getElementById("myForm");
+            let rec = {{ result_list | safe }};
+            let count = 0;
+            for (var i in rec){
+                count += 1;
+                console.log(rec[i]);
+
+                const newBtn = document.createElement('button');
+                let head = document.createElement('head')
+                // 2. <div>에 들어갈 text node 만들기
+                const newText = document.createTextNode(rec[i]['bstopnm'] + ' 방면');
+                // 3. <div>에 text node 붙이기
+                newBtn.appendChild(newText);
+                newBtn.value = rec[i]['arsno'];
+                newBtn.name = rec[i]['bstopnm'];
+                newBtn.onclick = function() {
+                    let value = this.value;
+                    let name  = this.name;
+
+                    let form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "http://localhost:5000/final_result";
+
+                    let input1 = document.createElement("input");
+                    input1.type = "hidden";
+                    input1.name = "value";
+                    input1.value = value;
+                    form.appendChild(input1);
+
+                    let input2 = document.createElement("input");
+                    input2.type = "hidden";
+                    input2.name = "name"
+                    temp_text = document.getElementById("bus_name").innerText
+                    // temp_txt = {{bus_station_name | safe}}
+                    input2.value = temp_text
+                    form.appendChild(input2);
+
+                    document.body.appendChild(form);
+                    form.submit()
+                }
+                // 4. <body>에 1에서 만든 <div> element 붙이기
+                document.body.appendChild(newBtn);
+                if(count%2 == 0){
+                    let newBr = document.createElement('br');
+                    let newDiv = document.createElement('div');
+                    newDiv.className = "horizon"
+                    document.body.appendChild(newBr)
+                    document.body.appendChild(newDiv)
+                }
+            }
+        </script>
+    </body>
+</html>

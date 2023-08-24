@@ -1,0 +1,42 @@
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <a href="http://localhost:5000/">초기 화면으로 돌아가기</a>
+        <h2>다음 정류장</h2>
+        <div>hello</div>
+        <script>
+            let form = document.getElementById("myForm");
+            let rec = {{ result_list | safe }};
+            for (var i in rec){
+                console.log(rec[i]);
+                const newBtn = document.createElement('button');
+                // 2. <div>에 들어갈 text node 만들기
+                const newText = document.createTextNode(rec[i]['bstopnm']);
+                // 3. <div>에 text node 붙이기
+                newBtn.appendChild(newText);
+                newBtn.value = rec[i]['arsno'];
+                newBtn.onclick = function() {
+                    let value = this.value;
+
+                    let form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "http://localhost:5000/final_result";
+
+                    let input1 = document.createElement("input");
+                    input1.type = "hidden";
+                    input1.name = "value";
+                    input1.value = value;
+                    form.appendChild(input1);
+
+                    document.body.appendChild(form);
+                    form.submit()
+                }
+                // 4. <body>에 1에서 만든 <div> element 붙이기
+                document.body.appendChild(newBtn);
+            }
+
+        </script>
+    </body>
+</html>

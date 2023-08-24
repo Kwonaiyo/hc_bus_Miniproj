@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ bus.buslinenum }}번 버스 정보</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .container {
+            width: 100%; 
+            max-width: 1200px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .seat-bus   { background-color: rgb(233, 134, 60); } /* 급행,좌석버스: 주황색 */
+        .normal-bus { background-color: rgb(68, 155, 247); } /* 일반버스: 하늘색 */
+        .town-bus   { background-color: rgb(130, 187, 88); } /* 마을버스: 연두색 */
+        .bus_table th { padding: 2px; background-color: rgb(239, 239, 239); text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white; }
+        .bus_table td { padding: 2px; color: white; text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; }
+        footer { position: relative; bottom: 0; }
+        .go_home a:link, .go_home a:visited { color: black; text-decoration: none; }
+        .go_home a:hover { color: black; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>{{ bus.buslinenum }}번 버스 정보</h2>
+
+    <table class = "bus_table" border="1" style="border-collapse: collapse;">
+        <tr>
+            <th>노선번호</th>
+            <th>기점</th>
+            <th>종점</th>
+            <th>첫 차</th>
+            <th>막 차</th>
+            <th>배차간격(분)</th>
+            <th>배차간격(평일)</th>
+            <th>배차간격(출퇴근)</th>
+            <th>배차간격(휴일)</th>
+        </tr>
+        <tr class="
+            {% if bus.bustype == '급행버스' %} seat-bus
+            {% elif bus.bustype == '심야버스(급행)' %} seat-bus
+            {% elif bus.bustype == '좌석버스(용원)' %} seat-bus
+            {% elif bus.bustype == '좌석버스(산성)' %} seat-bus
+            {% elif bus.bustype == '일반버스' %} normal-bus
+            {% elif bus.bustype == '심야버스(일반)' %} normal-bus
+            {% elif bus.bustype == '마을버스' %} town-bus
+            {% endif %}
+        ">
+            <td>{{ bus.buslinenum }}</a></td>
+            <td>{{ bus.startpoint }}</td>
+            <td>{{ bus.endpoint }}</td>
+            <td style="text-align: right;">{{ bus.firsttime }}</td>
+            <td style="text-align: right;">{{ bus.endtime }}</td>
+            <td style="text-align: right;">{{ bus.headway }}</td>
+            <td style="text-align: right;">{{ bus.headwaynorm }}</td>
+            <td style="text-align: right;">{{ bus.headwaypeak }}</td>
+            <td style="text-align: right;">{{ bus.headwayholi }}</td>
+        </tr>
+    </table>
+
+    <!-- 경로 정보 출력 -->
+    <h3>노선 경로 정보</h3>
+    <ul style="list-style: none; padding-left: 0px;">
+        {% for stop in bus.stops %}
+            <li>{{ stop }}</li>
+        {% endfor %}
+    </ul>
+
+    <footer>
+        <div class="go_home">
+            <a href="/">홈으로</a>
+            <a href="/app_bus">다시 검색하기</a>
+        </div>
+    </footer>
+    </div>
+</body>
+</html>
